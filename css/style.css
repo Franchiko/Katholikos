@@ -1,0 +1,36 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+main {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+	padding-top: 1rem;
+}
+
+h1 {
+	font-size: 2rem;
+}
+
+nav {
+	display: flex;
+	justify-content: space-between;
+}
+
+.list-principal > .list {
+	display: inline-block;
+	text-decoration: none;
+}
+
+.mayor {
+	padding: 2rem 0rem;
+}
+
+footer {
+	padding: 1.4rem 0;
+	text-align: center;
+	background-color: black;
+	color: white;
+}
