@@ -91,4 +91,146 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Llamar al inicio para establecer estado inicial
     handleWindowResize();
+
+    /* ============================================
+       Generar stream-style cards dinámicamente
+       ============================================ */
+    let reviewsData = {};
+
+    // Cargar reseñas desde JSON externo
+    fetch('./data/reviews.json')
+        .then(response => response.json())
+        .then(data => {
+            reviewsData = data.reviews || {};
+            generateStreamCards();
+        })
+        .catch(error => {
+            console.warn('No se pudieron cargar las reseñas:', error);
+            generateStreamCards();
+        });
+
+    function generateStreamCards() {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            const titleEl = card.querySelector('.title-movie');
+            const iframe = card.querySelector('iframe');
+            if (!titleEl || !iframe) return;
+
+            // Crear contenedores
+            const streamCard = document.createElement('div');
+            streamCard.className = 'stream-card';
+
+            const streamVideo = document.createElement('div');
+            streamVideo.className = 'stream-video';
+
+            // Clonar iframe para usar dentro del layout (no mover original to keep fallback)
+            const iframeClone = iframe.cloneNode(true);
+            // Remove width/height attributes to let CSS control size
+            iframeClone.removeAttribute('width');
+            iframeClone.removeAttribute('height');
+            streamVideo.appendChild(iframeClone);
+
+            const streamInfo = document.createElement('div');
+            streamInfo.className = 'stream-info';
+
+            // Título (mantener solo título dentro de la card)
+            const h2 = document.createElement('h2');
+            h2.className = 'title-movie';
+            h2.textContent = titleEl.textContent.trim();
+
+            // Reseña: cargar desde datos externos
+            const p = document.createElement('p');
+            p.className = 'review';
+            const key = titleEl.textContent.trim();
+            p.textContent = reviewsData[key] || 'Breve reseña disponible próximamente.';
+
+            const playBtn = document.createElement('button');
+            playBtn.className = 'play-btn';
+            playBtn.textContent = 'Play';
+
+            // Extraer src original para abrir en modal (asegurarse de incluir autoplay)
+            const src = iframe.getAttribute('src') || iframeClone.getAttribute('src');
+            playBtn.dataset.src = src;
+
+            streamInfo.appendChild(h2);
+            streamInfo.appendChild(p);
+            streamInfo.appendChild(playBtn);
+
+            streamCard.appendChild(streamVideo);
+            streamCard.appendChild(streamInfo);
+
+            // Reemplazar contenido de .card por streamCard (solo título dentro card solicitado)
+            card.innerHTML = '';
+            card.appendChild(streamCard);
+        });
+
+        // Añadir modal al documento
+        createVideoModal();
+
+        // Delegación de eventos para botones Play
+        document.body.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('play-btn')) {
+                const src = e.target.dataset.src || '';
+                openVideoModal(src);
+            }
+            if (e.target && e.target.classList.contains('modal-close')) {
+                closeVideoModal();
+            }
+            if (e.target && e.target.classList.contains('video-modal-overlay')) {
+                closeVideoModal();
+            }
+        });
+    }
+
+    function createVideoModal() {
+        if (document.querySelector('.video-modal-overlay')) return;
+        const overlay = document.createElement('div');
+        overlay.className = 'video-modal-overlay';
+
+        const modal = document.createElement('div');
+        modal.className = 'video-modal';
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'modal-close';
+        closeBtn.textContent = 'Cerrar';
+
+        modal.appendChild(closeBtn);
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+    }
+
+    function openVideoModal(src) {
+        const overlay = document.querySelector('.video-modal-overlay');
+        const modal = overlay.querySelector('.video-modal');
+        // Remove old iframe
+        const oldIframe = modal.querySelector('iframe');
+        if (oldIframe) oldIframe.remove();
+
+        // Ensure autoplay param
+        let url = src || '';
+        if (url.indexOf('autoplay=1') === -1) {
+            url += (url.indexOf('?') === -1 ? '?' : '&') + 'autoplay=1&controls=1&rel=0&modestbranding=1';
+        }
+
+        const iframe = document.createElement('iframe');
+        iframe.setAttribute('src', url);
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+        iframe.setAttribute('allowfullscreen', '');
+
+        modal.appendChild(iframe);
+        overlay.classList.add('active');
+    }
+
+    function closeVideoModal() {
+        const overlay = document.querySelector('.video-modal-overlay');
+        if (!overlay) return;
+        const modal = overlay.querySelector('.video-modal');
+        const iframe = modal.querySelector('iframe');
+        if (iframe) iframe.remove();
+        overlay.classList.remove('active');
+    }
+
+    // Ejecutar transformación
+    generateStreamCards();
 });
