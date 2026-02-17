@@ -1,13 +1,28 @@
+/* Paleta de Colores */
+:root {
+	--color-primary-dark: #0a2239;
+	--color-primary-light: #53a2be;
+	--color-primary-medium: #1d84b5;
+	--color-secondary-dark: #132e32;
+	--color-secondary-medium: #176087;
+	--color-white: #ffffff;
+	--color-black: #000000;
+}
+
 * {
 	box-sizing: border-box;
 	margin: 0;
+	background-color: var(--color-black);
+	font-family: 'Google Sans', sans-serif;
 }
 
 main {
-	width: 80%;
+
+	width: 90%;
 	margin: 0 auto;
 	text-align: center;
 	padding-top: 1rem;
+	color: var(--color-primary-light);
 }
 
 h1 {
@@ -19,18 +34,343 @@ nav {
 	justify-content: space-between;
 }
 
+.list-principal {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	list-style: none;
+	padding: 0;
+	background-color: transparent;
+	transition: max-height 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+}
+
 .list-principal > .list {
-	display: inline-block;
 	text-decoration: none;
+	cursor: pointer;
+	padding: 1rem 1rem;
+	font-size: 1.2rem;
 }
 
 .mayor {
 	padding: 2rem 0rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.card iframe {
+	max-width: 100%;
+	height: auto;
 }
 
 footer {
 	padding: 1.4rem 0;
 	text-align: center;
-	background-color: black;
-	color: white;
+	background-color: var(--color-secondary-dark);
+	color: var(--color-white);
+}
+
+/* ============================================
+   ESTILOS MENU HAMBURGUESA
+   ============================================ */
+
+.hamburger-btn {
+	display: none;
+	flex-direction: column;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0.5rem;
+	gap: 6px;
+}
+
+.hamburger-btn span {
+	display: block;
+	width: 25px;
+	height: 3px;
+	background-color: var(--color-primary-light);
+	border-radius: 2px;
+	transition: all 0.3s ease;
+}
+
+.hamburger-btn.active span:nth-child(1) {
+	transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger-btn.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.hamburger-btn.active span:nth-child(3) {
+	transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* ============================================
+   MEDIA QUERIES - RESPONSIVE DESIGN
+   ============================================ */
+
+/* Móviles pequeños (< 576px) */
+@media (max-width: 575px) {
+	main {
+		width: 95%;
+	}
+
+	nav {
+		flex-direction: row;
+		gap: 1rem;
+		align-items: center;
+		position: relative;
+	}
+
+	.hamburger-btn {
+		display: flex;
+		position: absolute;
+		right: 1rem;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 1100;
+	}
+
+	h1 {
+		font-size: 1.5rem;
+	}
+
+	.title-movie {
+		font-size: 1rem;
+	}
+
+	.card iframe {
+		width: 100%;
+		max-width: 560px;
+		height: 315px;
+	}
+
+	.list-principal {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		flex-direction: column;
+		gap: 0;
+		max-height: 0;
+		overflow: hidden;
+		opacity: 0;
+		background-color: var(--color-primary-dark);
+		border-top: 2px solid var(--color-primary-light);
+		z-index: 1000;
+	}
+
+	.list-principal.active {
+		max-height: 500px;
+		opacity: 1;
+		background-color: var(--color-primary-dark);
+	}
+
+	.list-principal > .list {
+		padding: 1rem;
+		border-bottom: 1px solid var(--color-primary-light);
+		justify-content: flex-start;
+		color: var(--color-white);
+	}
+}
+
+/* Tablets pequeños (576px - 768px) */
+@media (min-width: 576px) and (max-width: 768px) {
+	main {
+		width: 90%;
+	}
+
+	nav {
+		flex-direction: row;
+		gap: 1.5rem;
+		align-items: center;
+		position: relative;
+	}
+
+	.hamburger-btn {
+		display: flex;
+		position: absolute;
+		right: 1rem;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 1100;
+	}
+
+	h1 {
+		font-size: 1.8rem;
+	}
+
+	.title-movie {
+		font-size: 1.2rem;
+	}
+
+	.card iframe {
+		width: 100%;
+		max-width: 560px;
+		height: 315px;
+	}
+
+	.list-principal {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		flex-direction: column;
+		gap: 0;
+		max-height: 0;
+		overflow: hidden;
+		opacity: 0;
+		background-color: var(--color-primary-dark);
+		border-top: 2px solid var(--color-primary-light);
+		z-index: 1000;
+	}
+
+	.list-principal.active {
+		max-height: 500px;
+		opacity: 1;
+		background-color: var(--color-primary-dark);
+	}
+
+	.list-principal > .list {
+		padding: 1.2rem;
+		border-bottom: 1px solid var(--color-primary-light);
+		color: var(--color-white);
+	}
+}
+
+/* Tablets medianos (769px - 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
+	main {
+		width: 85%;
+	}
+
+	nav {
+		position: relative;
+	}
+
+	.hamburger-btn {
+		display: none !important;
+	}
+
+	.list-principal {
+		position: static !important;
+		max-height: none !important;
+		opacity: 1 !important;
+		overflow: visible !important;
+		background-color: transparent !important;
+		border-top: none !important;
+		flex-direction: row !important;
+	}
+
+	.list-principal > .list {
+		border-bottom: none !important;
+		color: var(--color-primary-light);
+	}
+
+	h1 {
+		font-size: 2rem;
+	}
+
+	.title-movie {
+		font-size: 1.3rem;
+	}
+
+	.card iframe {
+		width: 100%;
+		max-width: 560px;
+		height: 315px;
+	}
+}
+
+/* Desktop pequeño (993px - 1200px) */
+@media (min-width: 993px) and (max-width: 1200px) {
+	main {
+		width: 85%;
+	}
+
+	nav {
+		position: relative;
+	}
+
+	.hamburger-btn {
+		display: none !important;
+	}
+
+	.list-principal {
+		position: static !important;
+		max-height: none !important;
+		opacity: 1 !important;
+		overflow: visible !important;
+		background-color: transparent !important;
+		border-top: none !important;
+		flex-direction: row !important;
+	}
+
+	.list-principal > .list {
+		border-bottom: none !important;
+		color: var(--color-primary-light);
+	}
+
+	h1 {
+		font-size: 2.2rem;
+	}
+
+	.title-movie {
+		font-size: 1.4rem;
+	}
+
+	.card iframe {
+		width: 560px;
+		height: 315px;
+	}
+}
+
+/* Desktop grande (> 1200px) */
+@media (min-width: 1201px) {
+	main {
+		width: 80%;
+	}
+
+	nav {
+		position: relative;
+	}
+
+	.hamburger-btn {
+		display: none !important;
+	}
+
+	.list-principal {
+		position: static !important;
+		max-height: none !important;
+		opacity: 1 !important;
+		overflow: visible !important;
+		background-color: transparent !important;
+		border-top: none !important;
+		flex-direction: row !important;
+	}
+
+	.list-principal > .list {
+		border-bottom: none !important;
+		color: var(--color-primary-light);
+	}
+
+	h1 {
+		font-size: 2.5rem;
+	}
+
+	.title-movie {
+		font-size: 1.5rem;
+	}
+
+	.card iframe {
+		width: 560px;
+		height: 315px;
+	}
 }
