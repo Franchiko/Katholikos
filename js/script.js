@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (document.getElementById('ytp-hide-styles')) return;
         const style = document.createElement('style');
         style.id = 'ytp-hide-styles';
-        style.textContent = '\n            .ytp-title-text{ display: none !important; }\n            .ytp-title-mask{ position: absolute; top: 0; left: 0; right: 0; height: 48px; background: rgba(0,0,0,1); pointer-events: none; z-index: 9999; border-top-left-radius: 6px; border-top-right-radius: 6px; }\n        ';
+        style.textContent = '\n            .ytp-title-text{ display: none !important; }\n            .ytp-title-mask{ position: absolute; top: 0; left: 0; right: 0; height: 58px; background: rgba(0,0,0,1); pointer-events: none; z-index: 9999; border-top-left-radius: 6px; border-top-right-radius: 6px; }\n        ';
         document.head.appendChild(style);
     }
 

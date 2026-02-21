@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katholikós - Bienvenido</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="./img/favicon-16x16.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('./img/background_image.png');
+            color: var(--color-primary-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .landing-container {
+            background: var(--color-secondary-dark);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+            padding: 2.5rem 2rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+        }
+        .landing-logo {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1.2rem;
+            background: none;
+        }
+        .landing-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--color-primary-light);
+            margin-bottom: 0.5rem;
+            background: none;
+        }
+        .landing-desc {
+            font-size: 0.9rem;
+            color: var(--color-white);
+            margin-bottom: 2rem;
+            background: none;
+        }
+        .landing-btn {
+            display: block;
+            width: 100%;
+            margin-bottom: 1rem;
+            padding: 0.9rem 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            background: var(--color-primary-medium);
+            color: var(--color-white);
+            cursor: pointer;
+            transition: background 0.4s ease-in-out;
+        }
+        .landing-btn:first-of-type:hover {
+            background: var(--color-secondary-medium);
+            color: var(--color-white);
+        }
+        .landing-btn:last-child {
+            background: var(--color-primary-light);
+            color: var(--color-black);
+        }
+        .landing-btn:hover {
+            background: var(--color-primary-light);
+            color: var(--color-black);
+        }
+        @media (max-width: 575px) {
+            .landing-container {
+                padding: 1.2rem 0.5rem;
+            }
+            .landing-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <img src="./img/favicon-32x32.png" alt="Logo Katholikós" class="landing-logo">
+        <div class="landing-title">Katholikós</div>
+        <div class="landing-desc">
+            Videoteca Católica para Reflexionar<br>
+            Semana Santa, Fe y Cine
+        </div>
+        <button class="landing-btn" onclick="window.location.href='login.html'">Iniciar sesión</button>
+        <button class="landing-btn" onclick="window.location.href='register.html'">Registrarse</button>
+    </div>
+</body>
+</html>
