@@ -233,4 +233,63 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ejecutar transformación
     generateStreamCards();
+
+    // --------------------------------------------
+    // Ocultar títulos de YouTube y añadir máscara
+    // --------------------------------------------
+    function injectYtpHideStyles() {
+        if (document.getElementById('ytp-hide-styles')) return;
+        const style = document.createElement('style');
+        style.id = 'ytp-hide-styles';
+        style.textContent = '\n            .ytp-title-text{ display: none !important; }\n            .ytp-title-mask{ position: absolute; top: 0; left: 0; right: 0; height: 48px; background: rgba(0,0,0,1); pointer-events: none; z-index: 9999; border-top-left-radius: 6px; border-top-right-radius: 6px; }\n        ';
+        document.head.appendChild(style);
+    }
+
+    function addMaskForIframe(iframe) {
+        if (!iframe || !(iframe instanceof HTMLIFrameElement)) return;
+        const container = iframe.closest('.stream-video') || iframe.parentElement;
+        if (!container) return;
+        // make sure container is positioned so absolute mask can align
+        const pos = getComputedStyle(container).position;
+        if (pos === 'static' || !pos) container.style.position = 'relative';
+        if (container.querySelector('.ytp-title-mask')) return;
+        const mask = document.createElement('div');
+        mask.className = 'ytp-title-mask';
+        container.appendChild(mask);
+    }
+
+    function addMaskForModal() {
+        const modal = document.querySelector('.video-modal');
+        if (!modal) return;
+        const pos = getComputedStyle(modal).position;
+        if (pos === 'static' || !pos) modal.style.position = 'relative';
+        if (modal.querySelector('.ytp-title-mask')) return;
+        const mask = document.createElement('div');
+        mask.className = 'ytp-title-mask';
+        modal.appendChild(mask);
+    }
+
+    function setupYtpMasks() {
+        injectYtpHideStyles();
+        // Add masks to existing iframes
+        document.querySelectorAll('iframe').forEach(ifr => addMaskForIframe(ifr));
+        addMaskForModal();
+
+        // Observe for dynamically added iframes
+        const observer = new MutationObserver(mutations => {
+            for (const m of mutations) {
+                m.addedNodes.forEach(node => {
+                    if (node.nodeType !== 1) return;
+                    if (node.tagName === 'IFRAME') addMaskForIframe(node);
+                    else if (node.querySelectorAll) {
+                        node.querySelectorAll('iframe').forEach(ifr => addMaskForIframe(ifr));
+                    }
+                });
+            }
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    // Inicializar
+    setupYtpMasks();
 });
